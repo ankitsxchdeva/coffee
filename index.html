@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Coffee Shelf</title>
+<meta name="description" content="Every bag of coffee I bought, drawn by hand and lined up month by month.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Caveat+Brush&family=Fredoka:wght@300;400;500;600;700&family=Gochi+Hand&family=Patrick+Hand&family=Playfair+Display:wght@400;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble" x="-5%" y="-5%" width="110%" height="110%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<h1 class="sr-only">The Coffee Shelf</h1>
+
+<main id="shelves" aria-label="Coffee shelves by month"></main>
+
+<div id="tag" class="tag" role="status" aria-live="polite" hidden></div>
+
+
+<script src="bags.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

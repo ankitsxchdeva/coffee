@@ -1,0 +1,161 @@
+:root {
+  --ink: #2b211c;
+  --wall: #f7ead3;
+  --wall-dot: #ecd9b8;
+  --wood: #c4834a;
+  --wood-dark: #94592b;
+  --wood-light: #dba06a;
+  --paper: #fffaf0;
+  --accent: #d9534f;
+  --hand: "Patrick Hand", "Comic Sans MS", cursive;
+  --display: "Caveat Brush", "Caveat", cursive;
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--wall); }
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--hand);
+  font-size: 18px;
+  line-height: 1.4;
+  background-color: var(--wall);
+  background-image: radial-gradient(var(--wall-dot) 1.6px, transparent 1.8px);
+  background-size: 26px 26px;
+  min-height: 100vh;
+}
+
+.top {
+  text-align: center;
+  padding: 40px 16px 8px;
+}
+.top h1 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(44px, 9vw, 76px);
+  line-height: 1;
+  margin: 0;
+  transform: rotate(-2deg);
+  text-shadow: 3px 3px 0 #f0c98f;
+}
+
+main {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px clamp(10px, 3vw, 28px) 56px;
+}
+
+.month { margin-top: 34px; }
+.sign {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 4px 18px;
+  padding: 4px 16px 6px;
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius: 6px 10px 5px 9px;
+  box-shadow: 3px 3px 0 var(--ink);
+  transform: rotate(-1.5deg);
+  position: relative;
+}
+.sign::before {
+  /* masking tape */
+  content: "";
+  position: absolute;
+  top: -10px; left: 50%;
+  width: 46px; height: 16px;
+  margin-left: -23px;
+  background: rgba(240, 201, 143, .85);
+  transform: rotate(4deg);
+}
+.sign h2 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 32px; line-height: 1; }
+
+.row { position: relative; padding-top: 18px; }
+.items {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--gap, 14px);
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+.plank {
+  position: relative;
+  height: 24px;
+  margin-top: -5px;
+  background: linear-gradient(var(--wood-light) 0 7px, var(--wood) 7px 100%);
+  border: 3px solid var(--ink);
+  border-radius: 5px 7px 6px 4px;
+  box-shadow: 0 7px 0 rgba(43, 33, 28, .18);
+}
+.plank::before, .plank::after {
+  /* brackets */
+  content: "";
+  position: absolute;
+  top: 18px;
+  width: 22px; height: 26px;
+  background: var(--wood-dark);
+  border: 3px solid var(--ink);
+  border-top: 0;
+  border-radius: 0 0 0 22px;
+}
+.plank::before { left: 9%; }
+.plank::after { right: 9%; transform: scaleX(-1); }
+.plank i {
+  /* wood grain */
+  position: absolute; left: 12%; right: 30%; top: 12px; height: 2px;
+  background: var(--wood-dark); opacity: .45; border-radius: 2px;
+}
+.plank i + i { left: 52%; right: 8%; top: 16px; }
+
+.bag {
+  all: unset;
+  display: block;
+  cursor: pointer;
+  position: relative;
+  transform-origin: 50% 100%;
+  transition: transform .18s cubic-bezier(.3, 1.6, .5, 1);
+}
+.bag svg { display: block; overflow: visible; filter: drop-shadow(2px 0 0 rgba(43, 33, 28, .12)); }
+.bag:nth-child(3n) { transform: rotate(-1.5deg); }
+.bag:nth-child(4n+1) { transform: rotate(1.2deg); }
+.bag:hover, .bag:focus-visible, .bag[aria-expanded="true"] { transform: translateY(-10px) rotate(-3deg) scale(1.04); z-index: 3; }
+.bag:focus-visible { outline: 3px dashed var(--accent); outline-offset: 6px; border-radius: 8px; }
+
+.tag {
+  position: absolute;
+  z-index: 20;
+  width: min(270px, 86vw);
+  padding: 12px 15px 13px;
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius: 10px 14px 9px 12px;
+  box-shadow: 4px 4px 0 var(--ink);
+  font-size: 17px;
+  pointer-events: none;
+}
+.tag::after {
+  content: "";
+  position: absolute;
+  left: var(--arrow, 50%); bottom: -11px;
+  width: 16px; height: 16px; margin-left: -8px;
+  background: var(--paper);
+  border-right: 2.5px solid var(--ink);
+  border-bottom: 2.5px solid var(--ink);
+  transform: rotate(45deg);
+}
+.tag.below::after { bottom: auto; top: -11px; transform: rotate(225deg); }
+.tag .r { font-size: 15px; text-transform: uppercase; letter-spacing: .06em; color: var(--wood-dark); }
+.tag .c { font-family: var(--display); font-size: 27px; line-height: 1.05; margin: 2px 0 4px; }
+.tag .d { margin: 0; }
+.tag .m { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 15px; color: #6b5a4e; }
+
+
+@media (prefers-reduced-motion: reduce) {
+  .bag { transition: none; }
+}
+
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
