@@ -27,6 +27,18 @@
   }
   const months = [...byMonth.keys()].sort().reverse(); // newest shelf on top
 
+  // Within a month, keep each roaster's bags together. Groups appear in order of
+  // that roaster's first purchase that month; bags within a group stay in date order.
+  const roasterKey = (b) => b.roaster.replace(/ × HYUNAH$/, "");
+  for (const [k, list] of byMonth) {
+    const first = new Map();
+    list.forEach((b, i) => { if (!first.has(roasterKey(b))) first.set(roasterKey(b), i); });
+    byMonth.set(k, list
+      .map((b, i) => ({ b, i }))
+      .sort((x, y) => first.get(roasterKey(x.b)) - first.get(roasterKey(y.b)) || x.i - y.i)
+      .map((x) => x.b));
+  }
+
 
   function scale() {
     const w = main.clientWidth;
