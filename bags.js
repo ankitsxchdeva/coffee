@@ -459,8 +459,8 @@ const BAGS = [
   // ---- November 2026
   {
     id: "ceto-hyperlight", date: "2026-11-04", roaster: "CETO", vendor: "CETO",
-    coffee: "Hyperlight", detail: "First weekly subscription bag", size: "115 g",
-    W: 104, H: 122, draw: cetoBag("Hyperlight", "Weekly subscription", [], null),
+    coffee: "Hyperlight", detail: "First monthly subscription bag", size: "115 g",
+    W: 104, H: 122, draw: cetoBag("Hyperlight", "Monthly subscription", [], null),
   },
   {
     id: "walnuts-halo-golden-honey", date: "2026-11-04", roaster: "Walnuts Coffee", vendor: "Walnuts Coffee",
@@ -510,8 +510,8 @@ const BAGS = [
   },
   {
     id: "ceto-gathaithi", date: "2026-11-19", roaster: "CETO", vendor: "CETO",
-    coffee: "Gathaithi AA", detail: "Kenya", size: "115 g",
-    W: 104, H: 122, draw: cetoBag("Gathaithi AA", "Kenya", [], null),
+    coffee: "Gathaithi AA", detail: "SL28 & SL34, washed · Nyeri, Kenya", size: "115 g",
+    W: 104, H: 122, draw: cetoBag("Gathaithi AA", "Nyeri, Kenya · Washed", ["Tree Tomato", "Jasmine Green Tea", "Red Grape"], 0.5),
   },
   {
     id: "flowerchild-danche", date: "2026-11-22", roaster: "Flower Child Coffee", vendor: "Flower Child Coffee",
