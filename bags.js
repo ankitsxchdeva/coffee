@@ -256,6 +256,33 @@ function flowerChildBag(art) {
   }, { g: 12 });
 }
 
+// Matte white pouch with a big white label on the lower two-thirds: bold lines and a
+// contents box up top, a rule, notes, crayon scribbles, then a QR code and a hand-lettered "NoRML".
+function normlBag(lines, notes, art) {
+  return (W, H) => pouch(W, H, "#F4F4F0", (f) => {
+    const SANS = "Helvetica, Arial, sans-serif";
+    const x = f.x + 5, y = f.y + f.h * 0.27, w = f.w - 10, h = f.h * 0.6;
+    const lx = x + 4, ly = y + 7, ry = ly + (lines.length - 1) * 5 + 3;
+    const bx = x + w - 22, qx = lx, qy = y + h - 15;
+    let qr = "";
+    const finder = (cx, cy) => `<rect x="${cx + 0.4}" y="${cy + 0.4}" width="3.2" height="3.2" fill="none" stroke="${INK}" stroke-width=".8"/><rect x="${cx + 1.4}" y="${cy + 1.4}" width="1.2" height="1.2" fill="${INK}"/>`;
+    qr = finder(qx, qy) + finder(qx + 7, qy) + finder(qx, qy + 7);
+    for (let i = 0; i < 11; i++) for (let j = 0; j < 11; j++)
+      if (!((i < 5 && j < 5) || (i > 5 && j < 5) || (i < 5 && j > 5)) && (i * 5 + j * 3 + i * j) % 3 === 0) qr += `<rect x="${qx + i}" y="${qy + j}" width="1" height="1" fill="${INK}"/>`;
+    return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="2.5" fill="#fff" stroke="${INK}" stroke-opacity=".25" stroke-width="1"/>
+      ${lines.map((s, i) => t(lx, ly + i * 5, 4.2, s, { f: SANS, w: 700, a: "start" })).join("")}
+      <rect x="${bx}" y="${y + 4}" width="18" height="${ry - y - 6}" fill="none" stroke="${INK}" stroke-width=".5"/>
+      ${t(bx + 1.5, y + 7.5, 2.2, "Contents", { f: SANS, w: 700, a: "start" })}
+      <path d="M${bx},${y + 9} l18,0" stroke="${INK}" stroke-width=".4"/>
+      ${t(bx + 1.5, y + 12.5, 2.3, "Weight", { f: SANS, w: 700, a: "start" })}${t(bx + 16.5, y + 12.5, 2.3, "200g", { f: SANS, w: 700, a: "end" })}
+      <path d="M${lx},${ry} L${bx - 3},${ry}" stroke="${INK}" stroke-width=".6"/>
+      ${t(lx, ry + 4, 2.9, notes, { f: SANS, a: "start" })}
+      <g fill="none" stroke-linecap="round" stroke-linejoin="round">${art(lx + 2, ry + 8, w - 12, qy - ry - 11)}</g>
+      ${qr}
+      ${t(x + w - 4, y + h - 5, 9, "NoRML", { f: F.hand, a: "end" })}`;
+  }, { zip: true });
+}
+
 function barrettsBag(sticker, stickerFill) {
   return (W, H) => flatBag(W, H, "#86E2C4", (f) => {
     const bx = f.x, by = f.y, bw = f.w, bh = f.h;
@@ -533,6 +560,33 @@ const BAGS = [
     W: 120, H: 152, draw: flowerChildBag((lx, ly, lw, lh) => `
       ${t(lx + lw / 2, ly + 19, 15, "Decaf Divino", { f: F.brush })}
       ${["Caturra, Castillo & V.Colombia", "Suaza, Huila, Colombia", "1300-1900 Meters Above Sea Level", "Washed E.A. Decaffeination", "Harvested September 2025"].map((s, i) => t(lx + 6, ly + 32 + i * 7, 4, s, { f: F.hand, a: "start" })).join("")}
+      ${t(lx + 6, ly + lh - 6, 3.6, "FLOWERCHILDCOFFEE.COM  250G.", { f: F.hand, a: "start" })}`),
+  },
+  {
+    id: "norml-el-alisal", date: "2026-11-22", roaster: "norml coffee ppl", vendor: "norml coffee ppl",
+    coffee: "El Alisal", detail: "Catucai, washed · Loja, Ecuador", size: "200 g",
+    W: 96, H: 148, draw: normlBag(["El Alisal", "Washed", "Catucai", "Loja, Ecuador"], "citrus, apricot, black tea", (x, y, w, h) => `
+      <path d="M${x},${y + h * 0.3} q${w * 0.4},-6 ${w},-2 q-${w * 0.6},4 -${w * 0.9},10 q${w * 0.5},-3 ${w * 0.95},2" stroke="#FFD21F" stroke-width="1.1"/>
+      <path d="M${x + 2},${y + h * 0.5} q${w * 0.5},-5 ${w * 0.8},-1 M${x + 4},${y + h * 0.75} q${w * 0.4},-3 ${w * 0.9},-1" stroke="#FF9A1F" stroke-width="1.3"/>
+      <path d="M${x + w * 0.45},${y + h * 0.15} l${w * 0.3},4 l-${w * 0.25},5 l${w * 0.3},3 l-${w * 0.15},5 q-${w * 0.4},3 -${w * 0.65},6" stroke="#7CC832" stroke-width="1.3"/>`),
+  },
+  {
+    // Details from the order email; norml's shop image for this line shows an older lot (Danche, Ethiopia).
+    id: "norml-oops-too-light", date: "2026-11-22", roaster: "norml coffee ppl", vendor: "norml coffee ppl",
+    coffee: "Oops Too Light", detail: "Yoiner Mosquera · Rosado, washed", size: "200 g",
+    W: 96, H: 148, draw: normlBag(["Yoiner Mosquera", "Washed", "Rosado"], "oops too light", (x, y, w, h) => {
+      const cx = x + w / 2, cy = y + h / 2;
+      const cloud = (c, dx, dy) => `<path d="M${cx - 24 + dx},${cy + dy} q-4,-10 6,-12 q4,-9 14,-5 q8,-7 16,1 q10,-1 9,10 q6,8 -3,13 q-2,8 -12,5 q-8,6 -16,0 q-12,3 -12,-6 q-6,-2 -2,-6 Z" stroke="${c}" stroke-width="1.1"/>`;
+      return `${cloud("#F4B8D6", 1, 1)}${cloud("#FFD21F", -1, 0)}${cloud("#FF9A1F", 0, -1)}
+        ${t(cx, cy + 4, 9, "OTL", { f: F.hand, fill: "#F06A1F" })}`;
+    }),
+  },
+  {
+    id: "flowerchild-tamiru-tadesse", date: "2026-11-25", roaster: "Flower Child Coffee", vendor: "Flower Child Coffee",
+    coffee: "Tamiru Tadesse", detail: "Landrace 71458", size: "250 g",
+    W: 120, H: 152, draw: flowerChildBag((lx, ly, lw, lh) => `
+      ${t(lx + lw / 2, ly + 19, 13, "Tamiru Tadesse", { f: F.script, w: 700 })}
+      ${t(lx + 6, ly + 34, 4, "Landrace 71458", { f: F.hand, a: "start" })}
       ${t(lx + 6, ly + lh - 6, 3.6, "FLOWERCHILDCOFFEE.COM  250G.", { f: F.hand, a: "start" })}`),
   },
 ];
