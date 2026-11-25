@@ -583,11 +583,24 @@ const BAGS = [
   },
   {
     id: "flowerchild-tamiru-tadesse", date: "2026-11-25", roaster: "Flower Child Coffee", vendor: "Flower Child Coffee",
-    coffee: "Tamiru Tadesse", detail: "Landrace 71458", size: "250 g",
-    W: 120, H: 152, draw: flowerChildBag((lx, ly, lw, lh) => `
-      ${t(lx + lw / 2, ly + 19, 13, "Tamiru Tadesse", { f: F.script, w: 700 })}
-      ${t(lx + 6, ly + 34, 4, "Landrace 71458", { f: F.hand, a: "start" })}
-      ${t(lx + 6, ly + lh - 6, 3.6, "FLOWERCHILDCOFFEE.COM  250G.", { f: F.hand, a: "start" })}`),
+    coffee: "Tamiru Tadesse", detail: "Ethiopian landrace 74158, washed · Alo Village, Sidama, Ethiopia", size: "250 g",
+    // Squat white pouch, dark green label, gold-foil lettering over rows of overlapping arches.
+    W: 128, H: 124, draw: (W, H) => pouch(W, H, "#F4F4F1", (f) => {
+      const G = "#D9B44A", BG = "#22483A";
+      const lx = f.x + f.w * 0.1, lw = f.w * 0.8, ly = f.y + f.h * 0.24, lh = f.h * 0.62;
+      const by = ly + lh * 0.66, cid = uid();
+      const arch = (cx, r) => `<path d="M${cx - r},${by} A${r},${r} 0 0 1 ${cx + r},${by} Z" fill="${G}" stroke="${BG}" stroke-width="1.6"/>
+        <path d="M${cx - r - 1.5},${by} A${r + 1.5},${r + 1.5} 0 0 1 ${cx + r + 1.5},${by}" fill="none" stroke="${G}" stroke-width=".7"/>`;
+      const row = (r, dy, off) => `<g transform="translate(0 ${dy})">${Array.from({ length: Math.ceil(lw / (r * 2)) + 2 }, (_, i) => arch(lx + off + i * r * 2, r)).join("")}</g>`;
+      return `<rect x="${lx}" y="${ly}" width="${lw}" height="${lh}" rx="2" fill="${BG}"/>
+      ${t(lx + lw / 2, ly + 13, 11.5, "Tamiru Tadesse", { f: F.script, fill: G, w: 700 })}
+      ${t(lx + lw / 2, ly + 21, 5.4, "Ethiopian Landrace 74158", { f: F.script, fill: G })}
+      <defs><clipPath id="${cid}"><rect x="${lx}" y="${ly + 22}" width="${lw}" height="${by - ly - 22}"/></clipPath></defs>
+      <g clip-path="url(#${cid})">${row(7, -11, 2)}${row(7.5, -5.5, -4)}${row(8.5, 0, 5)}</g>
+      ${t(lx + 3, by + 6, 4, "Alo Village, Sidama, Ethiopia", { f: F.script, fill: G, a: "start" })}
+      ${t(lx + 3, by + 11.5, 4, "Washed · Jan. '26 Harvest · 2400 m.", { f: F.script, fill: G, a: "start" })}
+      ${t(lx + 3, by + 17, 3.6, "FLOWERCHILDCOFFEE.com", { f: F.hand, fill: G, a: "start", ls: 0.6 })}`;
+    }, { zip: false, notch: false }),
   },
 ];
 
